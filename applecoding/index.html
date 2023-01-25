@@ -6,9 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="main.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.6.3.min.js"
+      integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
+    <h4 id="hi" class="js" style="color: red">안녕하세요</h4>
+    <script>
+      //   document.getElementById("hi").innerHTML = "안녕";
+      $("#hi").html("안녕");
+      $("#hi").text("안녕");
+      $("#hi").html();
+      $("#hi").css("color", "blue");
+      $("#hi").attr("src", "dsddd.jpg");
+      //   document.querySelector('#hi')
+      $(".js");
+    </script>
+
     <div class="alert-box" id="alert">
       <p id="title">alert 박스</p>
       <button id="close">x</button>
