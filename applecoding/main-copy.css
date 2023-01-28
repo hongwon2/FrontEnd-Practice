@@ -1,0 +1,15 @@
+.blue {
+  background-color: blue;
+  color: aqua;
+  padding: 20px;
+  border-radius: 10px;
+  display: none;
+}
+
+.pink {
+  background-color: pink;
+  color: blueviolet;
+  padding: 20px;
+  border-radius: 10px;
+  display: none;
+}
