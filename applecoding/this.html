@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="hello">안녕</p>
+    <button id="button">버튼</button>
+
+    <script>
+      ///////////////////////////////////
+      //this 의 1번째 뜻 - 오브젝트 값을 보여줌
+      console.log(this); //window 왜? 윈도우라는 오브젝트를 보여주기 때문
+
+      var 오브젝트 = {
+        data: {
+          함수() {
+            console.log(this); //{함수:f} 왜? data 라는 오브젝트 값이 함수이기 때문
+          },
+        },
+      };
+      오브젝트.data.함수();
+      ///////////////////////////////
+      //this 의 2번째 뜻- this 가 아래와 같은 형태일 경우 새 오브젝트(인스턴스) 생성 기계 : construct 라고도 함
+      function 기계() {
+        this.이름 = "kim";
+      }
+      var 오브젝트2 = new 기계();
+      ///////////////////////////////////
+      var 오브젝트3 = {
+        이름들: ["김", "이", "박"],
+        함수: function () {
+          console.log(this); //오브젝트값 출력 왜? 2번 이유
+          오브젝트3.이름들.forEach(function () {
+            console.log(this); //windonw 3번 출력 왜? 바로 위 상위 펑션이 그냥 근본없는 전역함수 이기 때문
+          });
+        },
+      };
+      오브젝트3.함수();
+      //////////////////////////////////
+      //this의 3번째 뜻 - 디스가 이벤트리스너 안에서는 e.currentTarget
+      document.getElementById("버튼").addEventListener("click", function (e) {
+        console.log(this); //버튼 출력 왜? 현재 나타내는 html 값을 출력
+        console.log(e.currentTarget); // 버튼 출력 // 위 this와 똑같음
+      });
+    </script>
+  </body>
+</html>
