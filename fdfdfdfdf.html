@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <style>
+        .red {
+            background-color: #f00;
+        }
+        .blue {
+            background-color: #00f;
+        }
+    </style>
+    <script>
+      // 로드 시 호출
+      function main() {
+        var input1 = parseInt(document.getElementById("num1").values);
+        var input2 = parseInt(document.getElementById("num2").value);
+
+        // 1 + 2 + 3 + 4
+        var num1 = add(input1, input2); // num1 = 3
+        var num2 = add(3, 4); // 7
+        var result = add(num1, num2); // 10
+
+        draw(result);
+      }
+
+      // 더한 값 반환
+      function add(input1, input2) {
+        return input1 + input2;
+      }
+
+      // 화면에 출력
+      function draw(num) {
+        var resultstr = num + "명";
+
+        // 화면에 뿌린다
+        document.getElementById("resultDiv").innerText = resultstr;
+      }
+    </script>
+  </head>
+  <body onload="main()">
+    <input id="num1" class="red" type="text" value="4"></input>
+    <input id="num2" class="blue" type="text" value="3"></input>
+    <button onclick="main()">ADD</button>
+    <div id="resultDiv"></div>
+  </body>
+</html>
