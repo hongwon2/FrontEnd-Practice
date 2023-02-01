@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //학생1이라는 객체는 이렇게 생겼다. 이런 비슷한 객체를 생성하는 기계를 만들어 보자
+      var 학생1 = {
+        name: "kim",
+        age: 15,
+        sayHi: function () {
+          console.log("안녕하세요" + this.name + "입니다.");
+        },
+      };
+      학생1.sayHi();
+
+      function 기계(이름) {
+        // 기계에서 this는 새로 생성되는 object를 뜻함 . : this 기계로 생성되는 오브젝트를 인스턴스(instance)라고 함
+        this.name = 이름;
+        this.age = 15;
+        this.sayHi = function () {
+          console.log("안녕하세요" + this.name + "입니다");
+        };
+      }
+
+      var 학생1 = new 기계("park");
+      var 학생2 = new 기계();
+
+      학생1.sayHi();
+      학생2.sayHi();
+    </script>
+
+    <script>
+      function 부가세(이름, 가격) {
+        this.name = 이름;
+        this.price = 가격;
+        this.buga = function () {
+          console.log(this.price * 0.1);
+        };
+      }
+
+      var product1 = new 부가세("shirt", 50000);
+      product1.buga();
+    </script>
+
+    <script>
+      //prototype - 상속 : 쉽게말해 유전자 : 기계(constructor)를 만들면 prototype라는 공간이 자동으로 생긴다
+      //콘솔창에 기계.prototype을 쳐보자
+
+      기계.prototype.gender = "남"; //기계의 프로토타입에 젠더 = 남 이라는 속성 추가(남자중학교라고 가정)
+      기계.prototype.addage = function () {
+        this.age + 5;
+      };
+      //console창에 학생1.gender를 쳐보자 -> 학생1.gender -> 남 이라고 뜸
+      // 왜 일까? 원래 기계에서 작성하지 않았는데?
+      //자바스크립트의 동작 방법
+      학생1.name; //(1)학생1이 name 을 가지고 있니? 그럼 출력해줘
+      학생1.gender; //(1)학생1이 gender를 가지고 있니? 그럼 출력해줘
+      학생1.gender; //(2)없으면 prototype(부모)에 있는지 봐바. 있니? 그럼 출력해줘
+
+      //그렇다면 여기서 문제.
+      // 어레이.toString(),어레이.map(),어레이.push() 같은 자바스크립트 내장함수들은 어떻게 쓰이는 걸까?
+      var arr = [1, 2, 3]; //이렇게 보통 어레이를 만들잖아? 그런데 실제 컴퓨터는
+      var arr = new Array(1, 2, 3); //이런식으로 어레이를 만들어
+      var obj = { name: "kim" }; //오브젝트도 마찬가지야 이렇게 만들잖아? 사실은
+      var obj = new Object(); //이렇게 만들어
+      // 눈치챘어? 내장함수는 어떻게 동작하냐면 (여기선 toString())
+      // 학생1 : toString() 없네 -> 기계.prototype 에도 toString()이 없네 -> Object.prototype 에는 toString()이 있네!!!
+      // 이렇게 부모의 부모까지 찾아가면 결국 Object 라는 함수의 프로토타입에 toString 이라는 함수가 있어서  우리는 여러 내장함수를 쓸 수 있는거야
+
+      //prototype의 특징
+      // 1. 프로토타입은 함수에만 생긴다 (어레이,오브젝트엔 안생김)
+      // 2. 내 부모 유전자를 검사하고 싶으면 __proto__ : ex) 콘솔창에 학생1.__proto__
+
+      //__proto__를 사용한 두 객체 부모-자식 관계 등록하기
+      var 부모 = { name: "kim" };
+      var 자식 = {};
+      자식.__proto__ = 부모; // 나의 유전자는 부모 가 되게 해주세요 : 3. __proto__를 사용해 부모님 강제 등록하기
+      자식.name;
+    </script>
+
+    <script>
+      //get set 알아보기
+      var 사람 = {
+        name: "park",
+        age: 30,
+        nextAge() {
+          return this.age + 1;
+        },
+      };
+
+      사람.age = 20; // 원래는 이렇게 오브젝트 자료를 수정함 : ex) 사람.age 는 20이라고 콘솔창에 나옴
+      // 하지만 미래를 생각하는 개발자들은 확장성을 위해 데이터 수정을 위한 함수를 만들어 사용 함
+      var 사람 = {
+        name: "park",
+        age: 30,
+        nextAge() {
+          return this.age + 1;
+        },
+      };
+
+      사람.setAge(40); // 이렇게 쓰면 변경 가능하겠지 이제?
+
+      //그럼 get set은 왜 쓰는 걸까? - 잘못을 방지하기 위한 안전장치
+      사람.setAge("40"); //1. 만약 나이를 문자형으로 잘못 쓴 상황 ->그래도 잘 저장됨 -> 나중에 1을 더할때 오류가 생기겠지
+
+      var 사람2 = {
+        name: "park",
+        age: 30,
+        get nextAge() {
+          //3. get 을 붙혀서 꺼내옴 - 파라미터 있으면 안됨
+          return this.age + 1;
+        },
+        set setAge(나이) {
+          this.age = ParseInt(나이); //2. set구문에 paraseInt 를 써서 변환시켜줌(안전장치 생성) - 파라미터 한개 이상 필수
+        },
+      };
+      사람.setAge = 40; //2.set 키워드를 쓰면 이렇게 함수를 사용함
+      console.log(사람.nextAge); //get 키워드를 추가하면 이렇게 함수 사용가능
+    </script>
+  </body>
+</html>
