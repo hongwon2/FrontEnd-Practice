@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //   ES5 상속 : Object.create(프로토타입오브젝트);
+      var 부모 = { name: "Kim", age: 50 };
+      var 자식 = Object.create(부모);
+      var 손자 = Object.create(자식);
+    </script>
+
+    <script>
+      //ES6 상속 : class : 콘스트럭터를 만드는 신 문법
+      class 부모2 {
+        constructor() {
+          this.name = "Kim";
+          this.sayHi = function () {
+            console.log("hello");
+          };
+        }
+        sayHi() {
+          // 이렇게 따로 함수를 만들면 할아버지의 프로토타입에 추가됨
+          console.log("hello");
+        }
+      }
+
+      var 자식 = new 부모2();
+    </script>
+
+    <script>
+      //유사한 class 하나를 더 만드는 방법 : extend
+      class 할아버지 {
+        constructor(name, name2) {
+          this.성 = "kim";
+          this.이름 = name;
+          this.이름2 = name2;
+        }
+        sayHi() {
+          console.log("안녕 저는 할아버지에요");
+        }
+      }
+
+      var 할아버지1 = new 할아버지("만덕");
+
+      class 아버지 extends 할아버지 {
+        //할아버지 class 랑 유사한 class(할아버지의 속성을 그대로 물려받아서) 만들고 싶어요
+        constructor(name, name2) {
+          super(name, name2);
+          //extend 해서 만든 class 는 this를 그냥 못써요 super()를 써야함.
+          //엄밀히 말하면 여기서 super()는 할아버지 클래스의 this.성 = 'kim',this.이름 = name 이랑 같음
+          //name 은 파라미터값이었으니 파라미터도 넣으셈
+          this.나이 = 50;
+        }
+        sayHi() {
+          console.log("안녕 저는 아버지에요");
+          super.sayHi(); //부모의 프로토타입 함수 실행 그니까 sayHi() {console.log("안녕 저는 할아버지에요");}라는 뜻
+        }
+      }
+      var 아버지1 = new 아버지("만수", "만지");
+    </script>
+
+    <script>
+      //class get set
+      class 사람 {
+        constructor() {
+          this.name = "Park";
+          this.age = 20;
+        }
+        get nextAge() {
+          return this.age + 1;
+        }
+        set setAge(나이) {
+          this.age = 나이;
+        }
+      }
+      var 사람1 = new 사람();
+    </script>
+    <!-- //class,extend,getter,setter 문제 -->
+    <script>
+      class 강아지 {
+        constructor(type, color) {
+          this.type = type;
+          this.color = color;
+          한살먹기(){
+            if(this instanceof 고양이){
+                this.age++
+            }
+          }
+        }
+      }
+      var 강아지1 = new 강아지("똥개", "black");
+
+      class 고양이 extends 강아지 {
+        constructor(name, age) {
+          super(name, color, age);
+          this.age = age;
+        }
+      }
+      var 고양이1 = new Cat("동네고양이", "white", 5);
+    </script>
+  </body>
+</html>
